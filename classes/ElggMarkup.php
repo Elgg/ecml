@@ -23,7 +23,7 @@ class ElggMarkup {
 	/**
 	 * Render an ECML tag
 	 *
-	 * @param array $matches
+	 * @param array $matches Array of string matches for a particular tag
 	 * @return string
 	 */
 	public function render($matches) {
@@ -35,7 +35,7 @@ class ElggMarkup {
 			'keyword' => $keyword,
 			'params' => $this->tokenize($params_string),
 		);
-		return elgg_trigger_plugin_hook('render', 'ecml', $vars, $text);
+		return elgg_trigger_plugin_hook("render:$keyword", "ecml", $vars, $text);
 	}
 
 	/**
