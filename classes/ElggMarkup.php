@@ -29,19 +29,19 @@ class ElggMarkup {
 	public function render($matches) {
 		$text = trim($matches[0]);
 		$keyword = trim($matches[1]);
-		$params_string = trim($matches[2]);
+		$attributes_string = trim($matches[2]);
 
 		$vars = array(
 			'keyword' => $keyword,
-			'params' => $this->tokenize($params_string),
+			'attributes' => $this->tokenize($attributes_string),
 		);
 		return elgg_trigger_plugin_hook("render:$keyword", "ecml", $vars, $text);
 	}
 
 	/**
-	 * Tokenize the ECML tag parameters
+	 * Tokenize the ECML tag attributes
 	 *
-	 * @param string $string Parameter string
+	 * @param string $string Attribute string
 	 * @return array
 	 */
 	protected function tokenize($string) {
@@ -50,7 +50,7 @@ class ElggMarkup {
 			return array();
 		}
 
-		$params = array();
+		$attributes = array();
 		$pos = 0;
 		$char = elgg_substr($string, $pos, 1);
 
@@ -82,7 +82,7 @@ class ElggMarkup {
 					} elseif ($operand == 'false') {
 						$operand = false;
 					}
-					$params[$name] = $operand;
+					$attributes[$name] = $operand;
 					$operand = $name = '';
 					break;
 
@@ -107,9 +107,9 @@ class ElggMarkup {
 			} else if ($operand == 'false') {
 				$operand = false;
 			}
-			$params[$name] = $operand;
+			$attributes[$name] = $operand;
 		}
 
-		return $params;
+		return $attributes;
 	}
 }
